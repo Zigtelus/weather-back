@@ -1,5 +1,4 @@
 
 
-export type RolesUserDto = "admin" | "user";
 
-// export type RolesUserDto = keyof RolesUser;
+export type RolesUserDto = "admin" | "user";
