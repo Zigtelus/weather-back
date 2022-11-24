@@ -1,12 +1,12 @@
 import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
 import { Document } from 'mongoose'
 
-export type UserDocument = Role & Document
+export type UserDocument = RoleUser & Document
 
 
 
 @Schema({_id: false})
-export class Role {
+class RoleUser {
 
   @Prop({required: true})
   readonly admin: string;
@@ -17,4 +17,4 @@ export class Role {
 }
 
 
-export const RoleSchema = SchemaFactory.createForClass(Role);
+export const RoleUserSchema = SchemaFactory.createForClass(RoleUser);

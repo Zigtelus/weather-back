@@ -1,23 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
-import { UserRepositury } from './user.repository';
+import { UserRepository } from './user.repository';
 import { User } from './schemas/user.schema';
 import { UpdateReportDto } from './dtos/update-first.dto';
 import { CreateReportDto } from './dtos/create-user.dto';
-import { CoordsUserDto } from './dtos/coords-user.dto';
-import { RolesUserDto } from './dtos/roles-user.dto';
 import { NewUser, UpdateUser } from './users-objects';
+import * as bcrypt from 'bcrypt';
+import { TokenService } from 'src/service/token-service';
 
-type Cords = null | CoordsUserDto;
 
 
-// NewUser
-// UpdateUser
 
 @Injectable()
 export class UserService {
 
-  constructor(private readonly usersRepository: UserRepositury) {}
+  constructor(
+    private readonly usersRepository: UserRepository,
+  ) {}
 
   async getUserById(userId: string): Promise<User> {
     return this.usersRepository.findOne({userId})
@@ -27,19 +25,36 @@ export class UserService {
     return this.usersRepository.find({})
   }
 
-  async createUser(createReportDto: CreateReportDto): Promise<User | boolean> {
+  async createUser(createUserDto: CreateReportDto, res): Promise<User | boolean> {
 
-    const newUser = new NewUser(createReportDto);
+
+
+    const y = {"payload": "dwdfwef"}
+    const token = new TokenService()
+    console.log(token.generateToken(y))
+
+
+    const qqq: string = await bcrypt.hash(createUserDto.password, 10)
+
+
+    res.cookie('res.cookie', "httpOnly", {httpOnly: true})
+
+    
+    // const qwd = {...createUserDto, password: qqq}
+    const newUser = new NewUser(createUserDto);
+
     if (!!newUser.email === true) return this.usersRepository.create(newUser);
     
     return false;
   
   }
 
-  async updateUser(userId: string, userUpdates: UpdateReportDto): Promise<User> {
+  async updateUser(userId: string, userUpdates: UpdateReportDto): Promise<User | boolean> {
 
     const updateUser = new UpdateUser(userUpdates);
-    return this.usersRepository.findOneAndUpdate({userId}, updateUser)
+    if (!!updateUser.email === true) return this.usersRepository.findOneAndUpdate({userId}, updateUser);
+
+    return false;
   }
 
   async removeUser(userId: string): Promise<User> {

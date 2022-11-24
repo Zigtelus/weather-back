@@ -1,12 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, FilterQuery } from "mongoose";
+import { TokenService } from "src/service/token-service";
 import { User, UserDocument } from "./schemas/user.schema";
 
 
 
+
 @Injectable()
-export class UserRepositury {
+export class UserRepository  {
 
   constructor (@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
@@ -20,7 +22,12 @@ export class UserRepositury {
 
   async create (user: User): Promise<User> {
     const newUser = new this.userModel(user);
-    return newUser.save();
+
+    try {
+      return newUser.save();
+    } catch (e) {
+      console.log(e)
+    }
   };
 
   async findOneAndUpdate (usersFilterQuery: FilterQuery<User>, user: Partial<User>): Promise<User> {

@@ -1,12 +1,12 @@
 import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
 import { Document } from 'mongoose'
 
-export type UserDocument = Coords & Document
+export type UserDocument = CoordsUser & Document
 
 
 
 @Schema({_id: false})
-export class Coords {
+export class CoordsUser {
 
   @Prop({required: true})
   latitude: number;
@@ -20,4 +20,4 @@ export class Coords {
 }
 
 
-export const CoordsSchema = SchemaFactory.createForClass(Coords);
+export const CoordsUserSchema = SchemaFactory.createForClass(CoordsUser);
