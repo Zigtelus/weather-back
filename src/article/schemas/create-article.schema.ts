@@ -1,15 +1,13 @@
 import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
 import { Document } from 'mongoose'
-import { StatisticsArticleDto } from 'src/article/dtos/statistics-article.dto';
 import { DateLastEditArticleDto } from '../dtos/date-last-edit-article.dto';
-import { StatisticsArticleSchema } from './statistics-article.schema';
 
 
-export type ArticleDocument = Article & Document
+export type CreateArticleDocument = CreateArticle & Document
 
 
 @Schema()
-export class Article {
+export class CreateArticle {
 
   @Prop({required: true})
   readonly articleId: string;
@@ -38,12 +36,15 @@ export class Article {
   @Prop({required: true})
   readonly dateLastEdit: DateLastEditArticleDto;
   
-  @Prop({required: true, type: StatisticsArticleSchema})
-  readonly statistics: StatisticsArticleDto | null;
+  @Prop({required: true})
+  readonly statistics: null;
+
+  @Prop({required: true})
+  readonly comments: null;
 
 }
 
 
 
 
-export const ArticleSchema = SchemaFactory.createForClass(Article);
+export const CreateArticleSchema = SchemaFactory.createForClass(CreateArticle);

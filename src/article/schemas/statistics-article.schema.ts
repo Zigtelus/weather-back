@@ -9,13 +9,13 @@ export type StatisticsArticleDocument = StatisticsArticle & Document
 export class StatisticsArticle {
 
   @Prop({required: true})
-  likes: number;
+  likes: string[];
 
   @Prop({required: true})
-  dislikes: number;
+  dislikes: string[];
 
   @Prop({required: true})
-  views: number;
+  views: string[];
 
 }
 
